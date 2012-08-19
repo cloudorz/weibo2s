@@ -27,8 +27,7 @@ module WeiboOAuth2
         end
         
         def method_missing(name, *args)
-
-            fst, snd = name.split('_', 2)
+            fst, snd = name.to_s.split('_', 2)
             super unless WeiboOAuth2::Config.apis.include? fst
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             super unless api_info
