@@ -97,6 +97,10 @@ module WeiboOAuth2
     def auth_code
       @auth_code ||= WeiboOAuth2::Strategy::AuthCode.new(self)
     end
+
+    def base
+        @base ||= WeiboOAuth2::Api::V2::Base.new(@access_token) if @access_token
+    end
     
   end 
 end

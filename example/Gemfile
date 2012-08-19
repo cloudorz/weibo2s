@@ -3,5 +3,5 @@ source :rubygems
 gem 'sinatra'
 gem "haml"
 gem "sass"
-gem 'weibo_2'
+gem 'weibo2s'
 gem 'time-ago-in-words'

@@ -1,0 +1,35 @@
+statuses:
+    public_timeline:
+        url: statuses/public_timeline.json
+    friends_timeline:
+        url: statuses/friends_timeline.json
+    home_timeline:
+        url: statuses/home_timeline.json
+    destroy:
+        url: statuses/destory.json
+        method: POST
+    update:
+        url: statuses/update.json
+        method: POST
+    upload:
+        url: statuses/upload.json
+        method: POST
+        attachment: true
+    upload_url_text:
+        url: statuses/upload_url_text.json
+        method: POST
+    emotions:
+        url: emotions.json
+users:
+    show:
+        url: users/show.json
+    domain_show:
+        url: user/domain_show.json
+    counts:
+        url: users/counts.json
+remind:
+    unread_count:
+        url: https://rm.api.weibo.com/2/remind/unread_count.json
+    set_count:
+        url: https://rm.api.weibo.com/2/remind/set_count.json
+        method: POST

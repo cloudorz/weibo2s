@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'weibo_2'
+require 'weibo2s'
 require 'time-ago-in-words'
 
 %w(rubygems bundler).each { |dependency| require dependency }
@@ -8,12 +8,12 @@ Bundler.setup
 %w(sinatra haml sass).each { |dependency| require dependency }
 enable :sessions
 
-WeiboOAuth2::Config.api_key = ENV['KEY']
-WeiboOAuth2::Config.api_secret = ENV['SECRET']
-WeiboOAuth2::Config.redirect_uri = ENV['REDIR_URI']
+#WeiboOAuth2::Config.api_key = ENV['KEY']
+#WeiboOAuth2::Config.api_secret = ENV['SECRET']
+WeiboOAuth2::Config.redirect_uri = "http://127.0.0.1:4567/callback"
 
 get '/' do
-  client = WeiboOAuth2::Client.new
+  client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   if session[:access_token] && !client.authorized?
     token = client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]}) 
     p "*" * 80 + "validated"
@@ -34,12 +34,14 @@ get '/' do
 end
 
 get '/connect' do
-  client = WeiboOAuth2::Client.new
+  client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
+  #client = WeiboOAuth2::Client.new
   redirect client.authorize_url
 end
 
 get '/callback' do
-  client = WeiboOAuth2::Client.new
+  #client = WeiboOAuth2::Client.new
+  client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   access_token = client.auth_code.get_token(params[:code].to_s)
   session[:uid] = access_token.params["uid"]
   session[:access_token] = access_token.token
@@ -61,7 +63,8 @@ get '/screen.css' do
 end
 
 post '/update' do
-  client = WeiboOAuth2::Client.new
+  #client = WeiboOAuth2::Client.new
+  client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]}) 
   statuses = client.statuses
 

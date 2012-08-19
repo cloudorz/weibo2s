@@ -25,6 +25,27 @@ module WeiboOAuth2
           end
         end
         
+        def method_missing(name, *args)
+            fst, snd = name.to_s.split('_', 1)
+            api_info = WeiboOAuth2::Config.apis[fst][snd]
+            super unless api_info
+            if api_info['attachment']
+                define_method(name) do |params|
+                   method =  api_info['method'] || 'get'
+                   hashie send(method, api_info['url'], :params => params)
+                end
+            else
+                define_method(name) do |params|
+                   method =  api_info['method'] || 'get'
+                   multipart = build_multipart_bodies(params)
+                   hashie send(method, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
+                end
+            end
+            send(name, args[0])
+        end
+
+        # respond_to
+
         protected
         def self.mime_type(file)
           case
@@ -57,7 +78,6 @@ module WeiboOAuth2
             :headers => {"Content-Type" => "multipart/form-data; boundary=#{boundary}"}
           }
         end
-        
       end
     end
   end

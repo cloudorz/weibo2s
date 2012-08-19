@@ -25,5 +25,14 @@ module WeiboOAuth2
       @@redirect_uri
     end
 
+    ## plus by cloud
+    def self.apis=(val)
+        @@apis = val
+    end
+
+    def self.apis
+        @@apis
+    end
+
   end
 end
