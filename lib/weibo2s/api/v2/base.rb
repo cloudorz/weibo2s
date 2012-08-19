@@ -26,7 +26,7 @@ module WeiboOAuth2
         end
         
         def method_missing(name, *args)
-            fst, snd = name.to_s.split('_', 1)
+            fst, snd = name.to_s.split('_', 2)
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             super unless api_info
             if api_info['attachment']
