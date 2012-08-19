@@ -27,6 +27,12 @@ get '/' do
       return
     end
   end
+
+  puts "ok 1" if client.base.response_to? :statuses_update
+  puts "ok 2" if client.base.response_to? :statuses_nono
+  puts "ok 3" if client.base.response_to? :atuses_nono
+  puts "ok 4" if client.base.response_to? :to_s
+
   if session[:uid]
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses

@@ -71,6 +71,18 @@ module WeiboOAuth2
         end
 
         # respond_to
+        def response_to?(name)
+            if methods.include? name
+                true
+            else
+                fst, snd = name.to_s.split('_', 2)
+                super unless WeiboOAuth2::Config.apis.include? fst
+                api_info = WeiboOAuth2::Config.apis[fst][snd]
+                super unless api_info
+            end
+
+            true
+        end
 
         protected
         def self.mime_type(file)
