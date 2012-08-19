@@ -71,7 +71,7 @@ module WeiboOAuth2
         end
 
         # respond_to
-        def response_to?(name)
+        def respond_to?(name)
             if methods.include? name
                 true
             else
