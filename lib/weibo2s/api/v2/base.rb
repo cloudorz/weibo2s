@@ -27,22 +27,22 @@ module WeiboOAuth2
         
         def method_missing(name, *args)
             fst, snd = name.to_s.split('_', 2)
-            puts "#{fst}####{snd}####{WeiboOAuth2::Config.apis[fst]}"
+            super unless WeiboOAuth2::Config.apis.include? fst
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             super unless api_info
             if api_info['attachment']
                 self.class.class_eval do
                     define_method(name) do |params|
                        method =  api_info['method'] || 'get'
-                       hashie send(method.downcase, api_info['url'], :params => params)
+                       multipart = Base.build_multipart_bodies(params)
+                       hashie send(method.downcase, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
                     end
                 end
             else
                 self.class.class_eval do
                     define_method(name) do |params|
                        method =  api_info['method'] || 'get'
-                       multipart = Base.build_multipart_bodies(params)
-                       hashie send(method.downcase, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
+                       hashie send(method.downcase, api_info['url'], :params => params)
                     end
                 end
             end
