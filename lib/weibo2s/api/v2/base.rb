@@ -72,20 +72,18 @@ module WeiboOAuth2
 
         # respond_to
         def respond_to?(name)
-            if methods.include? name
-                true
-            else
+            unless methods.include? name
                 fst, snd = name.to_s.split('_', 2)
-                if WeiboOAuth2::Config.apis.include? fst
-                    if WeiboOAuth2::Config.apis[fst].include? snd
-                        true
-                    else
+                unless WeiboOAuth2::Config.apis.include? fst
+                    super
+                else
+                    unless WeiboOAuth2::Config.apis[fst].include? snd
                         super
                     end
-                else
-                    super
                 end
             end
+
+            true
         end
 
         protected
