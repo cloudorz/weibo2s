@@ -49,7 +49,8 @@ get '/callback' do
   session[:expires_at] = access_token.expires_at
   p "*" * 80 + "callback"
   p access_token.inspect
-  @user = client.users.show_by_uid(session[:uid].to_i)
+  #@user = client.users.show_by_uid(session[:uid].to_i)
+  @user = client.base.users_show({:uid => session[:uid].to_i})
   redirect '/'
 end
 
@@ -67,7 +68,7 @@ post '/update' do
   client = WeiboOAuth2::Client.new
   #client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]}) 
-  statuses = client.statuses
+  #statuses = client.statuses
   base = client.base
 
   unless params[:file] && (tmpfile = params[:file][:tempfile]) && (name = params[:file][:filename])
@@ -76,7 +77,8 @@ post '/update' do
   else
     status = params[:status] || '图片'
     pic = File.open(tmpfile.path)
-    statuses.upload(status, pic)
+    #statuses.upload(status, pic)
+    base.statuses_upload({:status => params[:status], :pic => pic})
   end
 
   redirect '/'
