@@ -27,6 +27,7 @@ module WeiboOAuth2
         
         def method_missing(name, *args)
             fst, snd = name.to_s.split('_', 1)
+            puts "#{fst}####{snd}"
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             puts "can get the load info? #{api_info}"
             super unless api_info
