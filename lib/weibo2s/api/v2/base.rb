@@ -1,5 +1,6 @@
 require 'hashie'
 require 'json'
+require 'rest_client'
 require 'net/http/post/multipart'
 
 module WeiboOAuth2
@@ -26,27 +27,45 @@ module WeiboOAuth2
         end
         
         def method_missing(name, *args)
-            fst, snd = name.to_s.split('_', 2)
+
+            fst, snd = name.split('_', 2)
             super unless WeiboOAuth2::Config.apis.include? fst
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             super unless api_info
+
+            method =  api_info['method'].downcase || 'get'
             if api_info['attachment']
                 self.class.class_eval do
                     define_method(name) do |params|
-                       method =  api_info['method'] || 'get'
-                       multipart = Base.build_multipart_bodies(params)
-                       hashie send(method.downcase, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
+                       multipart = self.calss.build_multipart_bodies(params)
+                       hashie send(method, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
                     end
                 end
             else
-                self.class.class_eval do
-                    define_method(name) do |params|
-                       method =  api_info['method'] || 'get'
-                       hashie send(method.downcase, api_info['url'], :params => params)
+                if api_info['url'].start_with?('https://') or api_info['url'].start_with?('http://')
+                    self.class.class_eval do
+                        if ['post', 'put'].include? method
+                            define_method(name) do
+                                hashie RestClient.send(method, api_info['url'], :access_token => @access_token.token)
+                            end
+                        else
+                            define_method(name) do
+                                hashie RestClient.send(method, "#{api_info['url']}?access_token=#{@access_token.token}")
+                            end
+                        end
                     end
-                end
+                else
+                    self.class.class_eval do
+                        define_method(name) do |params|
+                           hashie send(method, api_info['url'], :params => params)
+                        end
+                    end
             end
-            send(name, args[0])
+
+            if args.length > 0
+                send(name, args[0])
+            else
+                send(name)
         end
 
         # respond_to
