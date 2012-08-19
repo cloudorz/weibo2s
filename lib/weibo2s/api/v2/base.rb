@@ -32,7 +32,8 @@ module WeiboOAuth2
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             super unless api_info
 
-            method =  api_info['method'].downcase || 'get'
+            method =  api_info['method'] || 'get'
+            method = method.downcase
             if api_info['attachment']
                 self.class.class_eval do
                     define_method(name) do |params|
