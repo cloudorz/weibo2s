@@ -75,10 +75,10 @@ module WeiboOAuth2
             unless methods.include? name
                 fst, snd = name.to_s.split('_', 2)
                 unless WeiboOAuth2::Config.apis.include? fst
-                    super
+                    return super
                 else
                     unless WeiboOAuth2::Config.apis[fst].include? snd
-                        super
+                        return super
                     end
                 end
             end
