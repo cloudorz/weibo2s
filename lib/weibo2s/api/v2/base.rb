@@ -66,6 +66,7 @@ module WeiboOAuth2
                 send(name, args[0])
             else
                 send(name)
+            end
         end
 
         # respond_to
