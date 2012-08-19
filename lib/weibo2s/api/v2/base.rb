@@ -31,15 +31,19 @@ module WeiboOAuth2
             api_info = WeiboOAuth2::Config.apis[fst][snd]
             super unless api_info
             if api_info['attachment']
-                define_method(name) do |params|
-                   method =  api_info['method'] || 'get'
-                   hashie send(method, api_info['url'], :params => params)
+                self.class.eval_class do
+                    define_method(name) do |params|
+                       method =  api_info['method'] || 'get'
+                       hashie send(method, api_info['url'], :params => params)
+                    end
                 end
             else
-                define_method(name) do |params|
-                   method =  api_info['method'] || 'get'
-                   multipart = build_multipart_bodies(params)
-                   hashie send(method, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
+                self.class.eval_class do
+                    define_method(name) do |params|
+                       method =  api_info['method'] || 'get'
+                       multipart = build_multipart_bodies(params)
+                       hashie send(method, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
+                    end
                 end
             end
             send(name, args[0])
