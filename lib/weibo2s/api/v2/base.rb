@@ -60,6 +60,7 @@ module WeiboOAuth2
                            hashie send(method, api_info['url'], :params => params)
                         end
                     end
+                end
             end
 
             if args.length > 0
