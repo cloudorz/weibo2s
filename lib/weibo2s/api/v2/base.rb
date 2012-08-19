@@ -76,12 +76,16 @@ module WeiboOAuth2
                 true
             else
                 fst, snd = name.to_s.split('_', 2)
-                super unless WeiboOAuth2::Config.apis.include? fst
-                api_info = WeiboOAuth2::Config.apis[fst][snd]
-                super unless api_info
+                if WeiboOAuth2::Config.apis.include? fst
+                    if WeiboOAuth2::Config.apis[fst].include? snd
+                        true
+                    else
+                        super
+                    end
+                else
+                    super
+                end
             end
-
-            true
         end
 
         protected
