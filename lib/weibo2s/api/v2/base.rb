@@ -41,7 +41,7 @@ module WeiboOAuth2
                 self.class.class_eval do
                     define_method(name) do |params|
                        method =  api_info['method'] || 'get'
-                       multipart = build_multipart_bodies(params)
+                       multipart = Base.build_multipart_bodies(params)
                        hashie send(method, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
                     end
                 end
