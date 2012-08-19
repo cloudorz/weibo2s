@@ -34,7 +34,7 @@ module WeiboOAuth2
                 self.class.class_eval do
                     define_method(name) do |params|
                        method =  api_info['method'] || 'get'
-                       hashie send(method, api_info['url'], :params => params)
+                       hashie send(method.downcase, api_info['url'], :params => params)
                     end
                 end
             else
@@ -42,7 +42,7 @@ module WeiboOAuth2
                     define_method(name) do |params|
                        method =  api_info['method'] || 'get'
                        multipart = Base.build_multipart_bodies(params)
-                       hashie send(method, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
+                       hashie send(method.downcase, api_info['url'], :headers => multipart[:headers], :body => multipart[:body])
                     end
                 end
             end
