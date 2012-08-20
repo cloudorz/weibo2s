@@ -50,12 +50,12 @@ module WeiboOAuth2
         self.class.class_eval do
             define_method(name) do
                 p = "@#{name.to_s}"
-                instance_variable_set(p, WeiboOAuth2::Api::V2::Base.new(@access_token, param)) unless instance_variable_get(p) if @access_token
+                instance_variable_set(p, WeiboOAuth2::Api::V2::Base.new(@access_token, apis)) unless instance_variable_get(p) if @access_token
                 instance_variable_get(p)
             end
         end
 
-        send(name, apis)
+        send(name)
     end
 
     # respond_to
