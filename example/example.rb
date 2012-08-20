@@ -34,7 +34,8 @@ get '/' do
   #puts "ok 4" if client.base.respond_to? :to_s
 
   if session[:uid]
-    @user = client.users.show_by_uid(session[:uid]) 
+    #@user = client.users.show_by_uid(session[:uid]) 
+    @user = client.users.show({:uid => session[:uid].to_i})
     @statuses = client.statuses
   end
   haml :index
