@@ -13,7 +13,6 @@ enable :sessions
 WeiboOAuth2::Config.redirect_uri = "http://codewoow.com:4567/callback"
 
 get '/' do
-  #client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   client = WeiboOAuth2::Client.new
   if session[:access_token] && !client.authorized?
     token = client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]}) 
@@ -28,13 +27,12 @@ get '/' do
     end
   end
 
-  #puts "ok 1" if client.base.respond_to? :statuses_update
-  #puts "ok 2" if client.base.respond_to? :statuses_nono
-  #puts "ok 3" if client.base.respond_to? :atuses_nono
-  #puts "ok 4" if client.base.respond_to? :to_s
+  puts "ok 1" if client.respond_to? :statuses
+  puts "ok 2" if client.statuses.respond_to? :update
+  puts "ok 3" if client.respond_to? :atuses_nono
+  puts "ok 4" if client.statuses.respond_to? :atuse
 
   if session[:uid]
-    #@user = client.users.show_by_uid(session[:uid]) 
     @user = client.users.show({:uid => session[:uid].to_i})
     @statuses = client.statuses
   end
@@ -42,14 +40,12 @@ get '/' do
 end
 
 get '/connect' do
-  #client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   client = WeiboOAuth2::Client.new
   redirect client.authorize_url
 end
 
 get '/callback' do
   client = WeiboOAuth2::Client.new
-  #client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   access_token = client.auth_code.get_token(params[:code].to_s)
   session[:uid] = access_token.params["uid"]
   session[:access_token] = access_token.token
@@ -73,18 +69,14 @@ end
 
 post '/update' do
   client = WeiboOAuth2::Client.new
-  #client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => '/Users/cloud/.rvm/usr/ssl/certs'})
   client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]}) 
   statuses = client.statuses
-  #base = client.base
 
   unless params[:file] && (tmpfile = params[:file][:tempfile]) && (name = params[:file][:filename])
-    #statuses.update(params[:status])
     statuses.update({:status => params[:status]})
   else
     status = params[:status] || '图片'
     pic = File.open(tmpfile.path)
-    #statuses.upload(status, pic)
     statuses.upload({:status => params[:status], :pic => pic})
   end
 
