@@ -48,7 +48,7 @@ module WeiboOAuth2
         apis = WeiboOAuth2::Config.apis[name_str]
 
         self.class.class_eval do
-            define_method(name) do |param|
+            define_method(name) do
                 p = "@#{name.to_s}"
                 instance_variable_set(p, WeiboOAuth2::Api::V2::Base.new(@access_token, param)) unless instance_variable_get(p) if @access_token
                 instance_variable_get(p)
