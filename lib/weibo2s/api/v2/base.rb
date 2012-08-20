@@ -13,8 +13,9 @@ module WeiboOAuth2
         
         @@API_VERSION = 2
         
-        def initialize(access_token)
+        def initialize(access_token, apis)
           @access_token = access_token
+          @apis = apis
         end
         
         def hashie(response)
@@ -27,9 +28,8 @@ module WeiboOAuth2
         end
         
         def method_missing(name, *args)
-            fst, snd = name.to_s.split('_', 2)
-            super unless WeiboOAuth2::Config.apis.include? fst
-            api_info = WeiboOAuth2::Config.apis[fst][snd]
+            name_str = name.to_s
+            api_info = @apis[name_str]
             super unless api_info
 
             method =  api_info['method'] || 'get'
@@ -73,13 +73,9 @@ module WeiboOAuth2
         # respond_to
         def respond_to?(name)
             unless methods.include? name
-                fst, snd = name.to_s.split('_', 2)
-                unless WeiboOAuth2::Config.apis.include? fst
+                name_str = name.to_s
+                unless @apis.include? name_str
                     return super
-                else
-                    unless WeiboOAuth2::Config.apis[fst].include? snd
-                        return super
-                    end
                 end
             end
 

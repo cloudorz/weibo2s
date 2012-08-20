@@ -41,65 +41,33 @@ module WeiboOAuth2
     def authorized?
       !!@access_token
     end
-    
-    def users
-      @users ||= WeiboOAuth2::Api::V2::Users.new(@access_token) if @access_token
-    end
-    
-    def statuses
-      @statues ||= WeiboOAuth2::Api::V2::Statuses.new(@access_token) if @access_token
-    end
-    
-    def comments
-      @comments ||= WeiboOAuth2::Api::V2::Comments.new(@access_token) if @access_token
-    end
-    
-    def friendships
-      @friendships ||= WeiboOAuth2::Api::V2::Friendships.new(@access_token) if @access_token
-    end
-    
-    def account
-      @account ||= WeiboOAuth2::Api::V2::Account.new(@access_token) if @access_token      
-    end
-    
-    def favorites
-      @favorites ||= WeiboOAuth2::Api::V2::Favorites.new(@access_token) if @access_token      
-    end
-    
-    def trends
-      @trends ||= WeiboOAuth2::Api::V2::Trends.new(@access_token) if @access_token      
-    end
-    
-    def tags
-      @tags ||= WeiboOAuth2::Api::V2::Tags.new(@access_token) if @access_token      
-    end
-    
-    def register
-      @register ||= WeiboOAuth2::Api::V2::Register.new(@access_token) if @access_token      
-    end
-    
-    def search
-      @search ||= WeiboOAuth2::Api::V2::Search.new(@access_token) if @access_token      
-    end
-    
-    def short_url
-      @short_url ||= WeiboOAuth2::Api::V2::ShortUrl.new(@access_token) if @access_token      
-    end
-    
-    def suggestions
-      @suggestions ||= WeiboOAuth2::Api::V2::Suggestions.new(@access_token) if @access_token      
-    end
-    
-    def remind
-      @remind ||= WeiboOAuth2::Api::V2::Remind.new(@access_token) if @access_token      
-    end
-    
-    def auth_code
-      @auth_code ||= WeiboOAuth2::Strategy::AuthCode.new(self)
+
+    def method_missing(name, *args)
+        name_str = name.to_s
+        super unless WeiboOAuth2::Config.apis.include? name_str
+        apis = WeiboOAuth2::Config.apis[name_str]
+
+        self.class.class_eval do
+            define_method(name) do |param|
+                p = "@#{name.to_s}"
+                instance_variable_set(p, WeiboOAuth2::Api::V2::Base.new(@access_token, param)) unless instance_variable_get(p) if @access_token
+                instance_variable_get(p)
+            end
+        end
+
+        send(name, apis)
     end
 
-    def base
-        @base ||= WeiboOAuth2::Api::V2::Base.new(@access_token) if @access_token
+    # respond_to
+    def respond_to?(name)
+        unless methods.include? name
+            name_str = name.to_s
+            unless WeiboOAuth2::Config.apis.include? name_str
+                return super
+            end
+        end
+
+        true
     end
     
   end 
