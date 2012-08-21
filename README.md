@@ -21,6 +21,7 @@ $ gem install weibo2s-0.0.1.gem
 配置 api_key 和 api_secret
 
 1. 
+
 可以将weibo.yml放在你项目目录的config/weibo.yml 
 详见 weibo.yml.example
 
