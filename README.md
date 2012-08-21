@@ -1,6 +1,3 @@
-simplifing...
-
-###### old  ####
 谢谢 simsicon 的 https://github.com/simsicon/weibo_2
 
 # WeiboOAuth2
