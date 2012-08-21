@@ -1,15 +1,13 @@
+
 谢谢 simsicon 的 https://github.com/simsicon/weibo_2
+
+这个sdk请求weibo的api的方法是根据weibo_api.yml动态生成的。当微博的api接口有所变动时，可以更改weibo_api.yml来进行更新
 
 # WeiboOAuth2
 
 Ruby gem weibo's v2 SDK [API](http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2)
 
-## Requirements
-1.  weibo account
-2.  weibo app API key
-3.  weibo app API secret
-
-## Installation
+## 安装
         
 ```bash
 $ get clone https://github.com/cloudorz/weibo_2.git
@@ -17,11 +15,8 @@ $ gem build weibo2s.gemspec
 $ gem install weibo2s-0.0.1.gem
 ```
 
-## Basic Usage
-
-The example written with sinatra in this directory shows how to ask for oauth2 permission, get the token and send status with picture. It should cover basic usage in all ruby apps. You can visit http://weibo-oauth2-example.herokuapp.com/ to see the demo.
-
-update: Sorry, the api key I used for this demo is still in the process of auditing by weibo side, it's not available now for connecting. But you can apply your own api key, clone the example in this directory, then type
+## 使用
+具体是用看 example, 请修改congig/weibo.yml中的api_key和api_secret
 
 配置 api_key 和 api_secret
 1. 
@@ -37,8 +32,6 @@ WeiboOAuth2::Config.redirect_uri = YOUR_CALLBACK_URL
 配置微博api接口的yml
 详见weibo_api.yml.example
 config/weibo_api.yml
-
-这个sdk的生成的api方法是根据这个文件动态生成的。当微博的api接口有所变动时，可以更改weibo_api.yml来进行更新
 
 1.  如何获取token
 
