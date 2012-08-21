@@ -19,6 +19,7 @@ $ gem install weibo2s-0.0.1.gem
 具体是用看 example, 请修改congig/weibo.yml中的api_key和api_secret
 
 配置 api_key 和 api_secret
+
 1. 
 可以将weibo.yml放在你项目目录的config/weibo.yml 
 详见 weibo.yml.example
@@ -61,7 +62,7 @@ config/weibo_api.yml
     发送普通微博
         
     ```ruby
-    client.statuses.update(params[:status])
+    client.statuses.update({:status => "test"})
     ```
     
     发送带图的微博
@@ -69,30 +70,24 @@ config/weibo_api.yml
     ```ruby
     tmpfile = params[:file][:tempfile]
     pic = File.open(tmpfile.path)
-    client.statuses.upload(params[:status], pic)
+    client.statuses.upload({:status => "分享图片", :pic => pic})
     ```
-## Setting up SSL certificates
-    手动添加SSL支持
+## 设置SSL
     
     ### Ubuntu
 
-     `openssl version -a`. Append `/certs` to the OPENSSLDIR listed, here it would be `/usr/lib/ssl/certs`.
+     `openssl version -a`.中OPENSSLDIR的路径追加 `/certs` 例如: `/usr/lib/ssl/certs`.
 
     ```ruby
         client = WeiboOAuth2::Client.new(YOUR_KEY, YOUR_SECRET, :ssl => {:ca_path => "/usr/lib/ssl/certs"})
-        # or as below if you have set WeiboOAuth2::Config.api_key and WeiboOAuth2::Config.api_secret already
+        # 下面是你在WeiboOAuth2::Config中设置过api_key, api_secret
         # client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => "/usr/lib/ssl/certs"})
     ```
 
-    ### On Heroku, Fedora, CentOS
+    ### 在 Heroku, Fedora, CentOS
 
     ```ruby
         client = WeiboOAuth2::Client.new(YOUR_KEY, YOUR_SECRET, :ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'})
-        # or as below if you have set WeiboOAuth2::Config.api_key and WeiboOAuth2::Config.api_secret already
+        # 下面是你在WeiboOAuth2::Config中设置过api_key, api_secret
         # client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'})
     ```
-
-     Fedora and CentOS `/etc/pki/tls/certs/ca-bundle.crt` instead, or find your system path with `openssl version -a`.
-
-
-        
