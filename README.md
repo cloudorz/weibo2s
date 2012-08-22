@@ -33,8 +33,10 @@ WeiboOAuth2::Config.api_secret = YOUR_SECRET
 WeiboOAuth2::Config.redirect_uri = YOUR_CALLBACK_URL   
 ```
 配置微博api接口的yml
+
 详见weibo_api.yml.example
-config/weibo_api.yml
+
+文件放置位置config/weibo_api.yml
 
 1.  获取token
 
