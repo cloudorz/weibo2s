@@ -1,11 +1,9 @@
 
-谢谢 simsicon 的 https://github.com/simsicon/weibo_2
-
-这个sdk请求weibo的api的方法是根据weibo_api.yml动态生成的。当微博的api接口有所变动时，可以更改weibo_api.yml来进行更新
+谢谢 simsicon [weibo_2](https://github.com/simsicon/weibo_2)
 
 # WeiboOAuth2
-
-Ruby gem weibo's v2 SDK [API](http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2)
+weibo2s sdk请求weibo的api的方法是根据weibo_api.yml动态生成的。
+当微博的api接口有所变动时，可以更改weibo_api.yml来进行更新
 
 ## 安装
         
@@ -34,7 +32,7 @@ WeiboOAuth2::Config.redirect_uri = YOUR_CALLBACK_URL
 详见weibo_api.yml.example
 config/weibo_api.yml
 
-1.  如何获取token
+1.  获取token
 
     设置  YOUR_CALLBACK_URL as 'http://127.0.0.1/callback'
 
@@ -72,6 +70,7 @@ config/weibo_api.yml
     pic = File.open(tmpfile.path)
     client.statuses.upload({:status => "分享图片", :pic => pic})
     ```
+具体使用参考[weibo wiki api说明](http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2)
 ## 设置SSL
     
     ### Ubuntu
@@ -84,7 +83,7 @@ config/weibo_api.yml
         # client = WeiboOAuth2::Client.new('', '', :ssl => {:ca_path => "/usr/lib/ssl/certs"})
     ```
 
-    ### 在 Heroku, Fedora, CentOS
+    ### Heroku, Fedora, CentOS
 
     ```ruby
         client = WeiboOAuth2::Client.new(YOUR_KEY, YOUR_SECRET, :ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'})
