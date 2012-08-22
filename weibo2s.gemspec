@@ -4,9 +4,9 @@ require File.expand_path('../lib/weibo2s/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["cloud"]
   gem.email         = ["cloud@gmail.com"]
-  gem.description   = "A oauth2 gem for weibo"
-  gem.summary       = "A oauth2 gem for weibo"
-  gem.homepage      = "https://github.com/cloudorz/weibo_2"
+  gem.summary       = "A OAuth2 gem for weibo"
+  gem.description   = "Dynamic API methods according to weibo API doc YML file"
+  gem.homepage      = "https://github.com/cloudorz/weibo2s"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
