@@ -11,8 +11,7 @@ Ruby gem weibo's v2 SDK [API](http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V
         
 ```bash
 $ get clone https://github.com/cloudorz/weibo_2.git
-$ gem build weibo2s.gemspec
-$ gem install weibo2s-0.0.1.gem
+$ rake install
 ```
 
 ## 使用

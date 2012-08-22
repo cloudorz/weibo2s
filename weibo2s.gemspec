@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["cloud@gmail.com"]
   gem.description   = "A oauth2 gem for weibo"
   gem.summary       = "A oauth2 gem for weibo"
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/cloudorz/weibo_2"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
