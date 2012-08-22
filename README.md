@@ -13,7 +13,7 @@ $ rake install
 ```
 
 ## 使用
-具体是用看 example, 请修改congig/weibo.yml中的api_key和api_secret
+具体实例可看example, 修改congig/weibo.yml中的api_key和api_secret
 
 配置 api_key 和 api_secret
 
