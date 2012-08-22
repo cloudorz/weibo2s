@@ -22,5 +22,5 @@ end
 if File.exists?('config/weibo_api.yml')
     WeiboOAuth2::Config.apis = YAML.load_file('config/weibo_api.yml')
 else
-    puts "No apis YAML file can't work."
+    puts "No apis YAML file can't work.\n You should make a config/weibo_api.yml file.\nLike: https://github.com/cloudorz/weibo2s/blob/master/weibo_api.yml.example"
 end
