@@ -5,6 +5,8 @@
 weibo2s sdk请求weibo的api的方法是根据weibo_api.yml动态生成的。
 当微博的api接口有所变动时，可以更改weibo_api.yml来进行更新
 
+需配置 config/weibo.yml,config/weibo_api.yml 到相应目录
+
 ## 安装
         
 ```bash
