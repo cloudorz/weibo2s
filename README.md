@@ -8,7 +8,11 @@ weibo2s sdk请求weibo的api的方法是根据weibo_api.yml动态生成的。
 ## 安装
         
 ```bash
-$ get clone https://github.com/cloudorz/weibo_2.git
+$ gem install weibo2s
+```
+或
+```bash
+$ get clone https://github.com/cloudorz/weibo2s.git
 $ rake install
 ```
 
