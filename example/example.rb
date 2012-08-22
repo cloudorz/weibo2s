@@ -10,7 +10,7 @@ enable :sessions
 
 #WeiboOAuth2::Config.api_key = ENV['KEY']
 #WeiboOAuth2::Config.api_secret = ENV['SECRET']
-WeiboOAuth2::Config.redirect_uri = "http://codewoow.com:4567/callback"
+WeiboOAuth2::Config.redirect_uri = "http://localhost:4567/callback"
 
 get '/' do
   client = WeiboOAuth2::Client.new

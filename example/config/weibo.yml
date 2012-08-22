@@ -1,6 +1,6 @@
 development:
-  api_key: 124086435
-  api_secret: c98e29f577676d7850daf6303d816595
+  api_key: api_key
+  api_secret: api_secret
 test:
   api_key: api_key
   api_secret: api_secret
